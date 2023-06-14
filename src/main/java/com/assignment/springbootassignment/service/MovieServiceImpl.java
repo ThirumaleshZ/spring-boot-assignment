@@ -11,34 +11,34 @@ import java.util.Optional;
 @Service
 public class MovieServiceImpl implements MovieService {
 
-	@Autowired
-	private MovieRepository movieRepository;
+    @Autowired
+    private MovieRepository movieRepository;
 
-	@Override
-	public List<Movie> findAll() {
-		return movieRepository.findAll();
-	}
+    @Override
+    public List<Movie> findAll() {
+        return movieRepository.findAll();
+    }
 
-	@Override
-	public Movie findById(int id) {
-		Optional<Movie> res = movieRepository.findById(id);
-		Movie movie = null;
+    @Override
+    public Movie findById(int id) {
+        Optional<Movie> res = movieRepository.findById(id);
+        Movie movie = null;
 
-		if (res.isPresent()) {
-			movie = res.get();
-		} else {
-			throw new RuntimeException("Movie ID Not Found - " + id);
-		}
-		return movie;
-	}
+        if (res.isPresent()) {
+            movie = res.get();
+        } else {
+            throw new RuntimeException("Movie ID Not Found - " + id);
+        }
+        return movie;
+    }
 
-	@Override
-	public void save(Movie movie) {
-		movieRepository.save(movie);
-	}
+    @Override
+    public Movie save(Movie movie) {
+        return movieRepository.save(movie);
+    }
 
-	@Override
-	public void deleteById(int id) {
-		movieRepository.deleteById(id);
-	}
+    @Override
+    public void deleteById(int id) {
+        movieRepository.deleteById(id);
+    }
 }

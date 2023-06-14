@@ -5,11 +5,11 @@ import com.assignment.springbootassignment.model.Movie;
 import java.util.List;
 
 public interface MovieService {
-	public List<Movie> findAll();
+    public List<Movie> findAll();
 
-	public Movie findById(int id);
+    public Movie findById(int id);
 
-	public void save(Movie movie);
+    public Movie save(Movie movie);
 
-	public void deleteById(int id);
+    public void deleteById(int id);
 }
