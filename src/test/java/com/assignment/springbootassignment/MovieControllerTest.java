@@ -45,4 +45,12 @@ public class MovieControllerTest {
 
 		mockMvc.perform(MockMvcRequestBuilders.get("/movies/list")).andExpect(status().isOk()).andExpect(view().name("movies" + "-list")).andExpect(model().attribute("movies", hasSize(2)));
 	}
+	@Test
+	public void testmovie() throws Exception {
+		Movie movie = new Movie();
+
+		when(movieService.findById(1)).thenReturn(movie);
+
+		mockMvc.perform(MockMvcRequestBuilders.get("/movies/list")).andExpect(status().isOk()).andExpect(view().name("movies" + "-list")).andExpect(model().attribute("movies", hasSize(2)));
+	}
 }
