@@ -29,7 +29,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @WebMvcTest(value = MovieController.class)
-public class MovieControllerTest {
+class MovieControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -37,7 +37,7 @@ public class MovieControllerTest {
     private MovieService movieService;
 
     @Test
-    public void testFindAllMovies() throws Exception {
+    void testFindAllMovies() throws Exception {
         List<Movie> movies = new ArrayList<>();
         movies.add(new Movie());
         movies.add(new Movie());
@@ -53,7 +53,7 @@ public class MovieControllerTest {
     }
 
     @Test
-    public void testUpdateMovie() throws Exception {
+    void testUpdateMovie() throws Exception {
         Movie movie = new Movie(1, "new movie", 2023, 1);
 
         String inputJson = this.mapToJson(movie);
@@ -75,7 +75,7 @@ public class MovieControllerTest {
     }
 
     @Test
-    public void testFindMovieById() throws Exception {
+    void testFindMovieById() throws Exception {
         Movie mock = new Movie(1, "new", 2023, 2);
         when(movieService.findById(1)).thenReturn(mock);
 
@@ -88,8 +88,27 @@ public class MovieControllerTest {
         assertThat(outputJson, is(equalTo(expectedJson)));
     }
 
+//    @Test
+//    void testFindMovieById_ThrowsException() throws Exception {
+//        Exception e = assertThrows(MovieNotFoundException.class, () -> {
+//            when(movieService.findById(0)).thenThrow(new MovieNotFoundException("Movie ID Not Found - 0"));
+//
+//            String uri = "/api/movies/0";
+//
+////            throw new MovieNotFoundException("Movie ID not found - 0");
+////
+//            RequestBuilder requestBuilder = MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON);
+//            MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+//        });
+//
+//        String expectedMessage = "Movie ID Not Found - 0";
+//        String actualMessage = e.getMessage();
+//
+//        assertEquals(expectedMessage, actualMessage);
+//    }
+
     @Test
-    public void testPostMovie() throws Exception {
+    void testPostMovie() throws Exception {
         Movie movie = new Movie(1, "new movie", 2023, 1);
 
         String inputJson = this.mapToJson(movie);
@@ -111,15 +130,12 @@ public class MovieControllerTest {
 
 
     @Test
-    public void testDeleteMovie() throws Exception {
+    void testDeleteMovie() throws Exception {
         int id = 1;
         Movie movie = new Movie("new", 2023, 2);
         movie.setId(1);
-
         when(movieService.findById(id)).thenReturn(movie);
-
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/movies/{id}", id)).andExpect(MockMvcResultMatchers.status().isOk());
-
         verify(movieService, times(1)).findById(id);
     }
 

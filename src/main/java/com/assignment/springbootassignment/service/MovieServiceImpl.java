@@ -1,6 +1,7 @@
 package com.assignment.springbootassignment.service;
 
 import com.assignment.springbootassignment.dao.MovieRepository;
+import com.assignment.springbootassignment.exception.MovieNotFoundException;
 import com.assignment.springbootassignment.model.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class MovieServiceImpl implements MovieService {
         if (res.isPresent()) {
             movie = res.get();
         } else {
-            throw new RuntimeException("Movie ID Not Found - " + id);
+            throw new MovieNotFoundException("Movie ID Not Found - " + id);
         }
         return movie;
     }

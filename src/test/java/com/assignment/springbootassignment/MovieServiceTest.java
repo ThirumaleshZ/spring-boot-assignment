@@ -1,6 +1,7 @@
 package com.assignment.springbootassignment;
 
 import com.assignment.springbootassignment.dao.MovieRepository;
+import com.assignment.springbootassignment.exception.MovieNotFoundException;
 import com.assignment.springbootassignment.model.Movie;
 import com.assignment.springbootassignment.service.MovieService;
 import com.assignment.springbootassignment.service.MovieServiceImpl;
@@ -14,10 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-public class MovieServiceTest {
+class MovieServiceTest {
 
     @Mock
     private MovieRepository movieRepository;
@@ -31,7 +33,7 @@ public class MovieServiceTest {
     }
 
     @Test
-    public void testFindMovieById() throws Exception {
+    void testFindMovieById() throws Exception {
         Movie movie = new Movie(1, "new", 2023, 2);
 
         when(movieRepository.findById(1)).thenReturn(Optional.of(movie));
@@ -42,7 +44,19 @@ public class MovieServiceTest {
     }
 
     @Test
-    public void testFindAllMovies() {
+    void testFindMovieById_ThrowsException() throws Exception {
+        Exception e = assertThrows(MovieNotFoundException.class, () -> {
+            when(movieService.findById(0)).thenReturn(null);
+        });
+
+        String expectedMessage = "Movie ID Not Found - 0";
+        String actualMessage = e.getMessage();
+
+        assertEquals(expectedMessage, actualMessage);
+    }
+
+    @Test
+    void testFindAllMovies() {
         List<Movie> movies = new ArrayList<>();
         movies.add(new Movie());
         movies.add(new Movie());
@@ -56,7 +70,7 @@ public class MovieServiceTest {
     }
 
     @Test
-    public void testSaveMovie() {
+    void testSaveMovie() {
         Movie movie = new Movie(1, "new", 2023, 2);
 
         when(movieRepository.save(movie)).thenReturn(movie);
@@ -67,7 +81,7 @@ public class MovieServiceTest {
     }
 
     @Test
-    public void testDeleteMovie() {
+    void testDeleteMovie() {
         Movie movie = new Movie(1, "new", 2023, 2);
 
         when(movieRepository.findById(1)).thenReturn(Optional.of(movie));
