@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Add Movie</title>
+</head>
+
+<body>
+
+<div>
+
+    <h3>IMDb Directory</h3>
+    <hr>
+
+    <p>Add Movie</p>
+
+    <form action="#" method="POST"
+          th:action="@{/movies/save}" th:object="${movie}">
+        <input th:field="*{id}" type="hidden"/>
+
+        <input placeholder="Name"
+               th:field="*{name}" type="text">
+
+        <input placeholder="Year"
+               th:field="*{year}" type="text">
+
+        <input placeholder="Rating"
+               th:field="*{rating}" type="text">
+
+        <button type="submit">Save</button>
+
+    </form>
+
+    <hr>
+    <a th:href="@{/movies/list}">Back to IMDb Directory</a>
+
+</div>
+</body>
+
+</html>
