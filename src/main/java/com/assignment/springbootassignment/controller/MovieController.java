@@ -52,5 +52,3 @@ public class MovieController {
         return "Deleted Movie ID - " + id;
     }
 }
-
-//    mvnw verify sonar:sonar -Dsonar.host.url=https://sonarcloud.io  -Dsonar.organization=thirumaleshzemoso -Dsonar.login=6e15c1130f6a8d98e7201fd49af032031608d7c3 -Dsonar.projectKey=ThirumaleshZ_spring-boot-assignment

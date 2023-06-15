@@ -46,7 +46,7 @@ class MovieServiceTest {
     @Test
     void testFindMovieById_ThrowsException() throws Exception {
         Exception e = assertThrows(MovieNotFoundException.class, () -> {
-            when(movieService.findById(0)).thenReturn(null);
+            when(movieService.findById(0)).thenThrow(new MovieNotFoundException("Movie ID Not Found - 0"));
         });
 
         String expectedMessage = "Movie ID Not Found - 0";
