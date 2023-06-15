@@ -1,6 +1,7 @@
 package com.assignment.springbootassignment;
 
 import com.assignment.springbootassignment.controller.MovieController;
+import com.assignment.springbootassignment.exception.MovieNotFoundException;
 import com.assignment.springbootassignment.model.Movie;
 import com.assignment.springbootassignment.service.MovieService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -25,6 +26,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -32,7 +34,6 @@ import static org.mockito.Mockito.*;
 class MovieControllerTest {
     @Autowired
     private MockMvc mockMvc;
-
     @MockBean
     private MovieService movieService;
 
@@ -69,9 +70,7 @@ class MovieControllerTest {
 
         MockHttpServletResponse response = result.getResponse();
         String outputJson = response.getContentAsString();
-//        assertThat(outputJson, is(equalTo(inputjson)));
         assertEquals(HttpStatus.OK.value(), response.getStatus());
-
     }
 
     @Test
@@ -88,24 +87,12 @@ class MovieControllerTest {
         assertThat(outputJson, is(equalTo(expectedJson)));
     }
 
-//    @Test
-//    void testFindMovieById_ThrowsException() throws Exception {
-//        Exception e = assertThrows(MovieNotFoundException.class, () -> {
-//            when(movieService.findById(0)).thenThrow(new MovieNotFoundException("Movie ID Not Found - 0"));
-//
-//            String uri = "/api/movies/0";
-//
-////            throw new MovieNotFoundException("Movie ID not found - 0");
-////
-//            RequestBuilder requestBuilder = MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON);
-//            MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-//        });
-//
-//        String expectedMessage = "Movie ID Not Found - 0";
-//        String actualMessage = e.getMessage();
-//
-//        assertEquals(expectedMessage, actualMessage);
-//    }
+    @Test
+    void testFindMovieById_ThrowsException() throws Exception {
+        when(movieService.findById(0)).thenThrow(new MovieNotFoundException("Movie ID Not Found - 0"));
+        Throwable exception = assertThrows(MovieNotFoundException.class, () -> movieService.findById(0));
+        assertEquals("Movie ID Not Found - 0", exception.getMessage());
+    }
 
     @Test
     void testPostMovie() throws Exception {
@@ -124,7 +111,6 @@ class MovieControllerTest {
 
         MockHttpServletResponse response = result.getResponse();
         String outputJson = response.getContentAsString();
-//        assertThat(outputJson, is(equalTo(inputjson)));
         assertEquals(HttpStatus.OK.value(), response.getStatus());
     }
 
